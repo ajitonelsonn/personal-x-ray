@@ -13,6 +13,8 @@ import {
   Shield,
   Info,
 } from "lucide-react";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 interface NotificationProps {
   message: string;
@@ -280,7 +282,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      <Navbar />
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -412,19 +414,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-gray-500 text-sm">
-              Powered by advanced AI imaging technology
-            </p>
-            <p className="text-gray-400 text-sm mt-2">
-              © 2024 X-ray Analysis Portal. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
