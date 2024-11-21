@@ -1,34 +1,111 @@
 // app/page.tsx
 "use client";
-import { useState } from "react";
-import { Upload, AlertTriangle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Upload, AlertTriangle, Volume2, Pause } from "lucide-react";
+
+const cleanTextForSpeech = (text: string) => {
+  return text.replace(/[•]/g, "").replace(/\n+/g, ". ").trim();
+};
 
 const AnalysisDisplay = ({ analysis }: { analysis: string }) => {
-  // Split the analysis into sections
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speechSynthesis, setSpeechSynthesis] =
+    useState<SpeechSynthesis | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setSpeechSynthesis(window.speechSynthesis);
+    }
+  }, []);
+
   const sections = analysis.split("\n\n").map((section) => section.trim());
+
+  const speakAnalysis = () => {
+    if (!speechSynthesis) return;
+
+    speechSynthesis.cancel();
+    const cleanedText = cleanTextForSpeech(analysis);
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
+
+    utterance.onend = () => {
+      setIsPlaying(false);
+    };
+
+    utterance.onstart = () => {
+      setIsPlaying(true);
+    };
+
+    speechSynthesis.speak(utterance);
+  };
+
+  const stopSpeaking = () => {
+    if (speechSynthesis) {
+      speechSynthesis.cancel();
+      setIsPlaying(false);
+    }
+  };
+
+  const toggleSpeech = () => {
+    if (isPlaying) {
+      stopSpeaking();
+    } else {
+      speakAnalysis();
+    }
+  };
 
   return (
     <div className="prose max-w-none">
-      {sections.map((section, index) => {
-        const [title, ...content] = section.split("\n");
+      <div className="flex items-center justify-between mb-4 pb-2 border-b">
+        <h2 className="text-xl font-semibold text-gray-900 m-0">
+          Analysis Results
+        </h2>
+        <button
+          onClick={toggleSpeech}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors"
+          aria-label={isPlaying ? "Stop reading" : "Read analysis"}
+        >
+          {isPlaying ? (
+            <>
+              <Pause className="w-5 h-5 text-blue-600" />
+              <span className="text-blue-600">Stop</span>
+            </>
+          ) : (
+            <>
+              <Volume2 className="w-5 h-5 text-blue-600" />
+              <span className="text-blue-600">Read Analysis</span>
+            </>
+          )}
+        </button>
+      </div>
 
-        return (
-          <div key={index} className="mb-6">
-            {title.includes(":") && (
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">
-                {title}
-              </h3>
-            )}
-            <div className="space-y-2">
-              {content.map((line, lineIndex) => (
-                <p key={lineIndex} className="text-gray-700">
-                  {line}
-                </p>
-              ))}
+      <div
+        className={`space-y-6 ${
+          isPlaying
+            ? "bg-blue-50 p-4 rounded-lg transition-colors duration-200"
+            : ""
+        }`}
+      >
+        {sections.map((section, index) => {
+          const [title, ...content] = section.split("\n");
+
+          return (
+            <div key={index} className="mb-6">
+              {title.includes(":") && (
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {title}
+                </h3>
+              )}
+              <div className="space-y-2">
+                {content.map((line, lineIndex) => (
+                  <p key={lineIndex} className="text-gray-700">
+                    {line}
+                  </p>
+                ))}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -153,9 +230,6 @@ export default function Home() {
               </div>
 
               <div className="border rounded-lg p-4">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900">
-                  Analysis Results
-                </h2>
                 {analysis ? (
                   <div className="overflow-y-auto max-h-[600px]">
                     <AnalysisDisplay analysis={analysis} />
