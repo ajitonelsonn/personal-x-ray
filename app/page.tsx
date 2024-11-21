@@ -1,7 +1,121 @@
 // app/page.tsx
 "use client";
 import { useState, useEffect } from "react";
-import { Upload, AlertTriangle, Volume2, Pause } from "lucide-react";
+import {
+  Upload,
+  AlertTriangle,
+  Volume2,
+  Pause,
+  AlertCircle,
+  X,
+  FileText,
+  History,
+  Shield,
+  Info,
+} from "lucide-react";
+
+interface NotificationProps {
+  message: string;
+  onClose: () => void;
+}
+
+const Notification = ({ message, onClose }: NotificationProps) => {
+  return (
+    <div className="animate-slide-up fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-[400px] bg-white rounded-lg shadow-lg border border-red-100 z-50">
+      <div className="relative p-4">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0">
+            <AlertCircle className="h-5 w-5 text-red-500" />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm font-medium text-red-800">
+              Attention required
+            </div>
+            <div className="mt-1 text-sm text-red-600">{message}</div>
+          </div>
+          <div className="flex-shrink-0">
+            <button
+              onClick={onClose}
+              className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+            >
+              <span className="sr-only">Close</span>
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const InfoCard = ({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: any;
+  title: string;
+  description: string;
+}) => (
+  <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+    <div className="flex items-center gap-4">
+      <div className="p-3 bg-blue-50 rounded-lg">
+        <Icon className="w-6 h-6 text-blue-500" />
+      </div>
+      <div>
+        <h3 className="font-semibold text-gray-900">{title}</h3>
+        <p className="text-sm text-gray-600">{description}</p>
+      </div>
+    </div>
+  </div>
+);
+
+// Add new ResultsTable component
+const ResultsTable = ({ data }: { data: any }) => (
+  <div className="mt-8 bg-white rounded-lg shadow overflow-hidden">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Parameter
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Value
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {Object.entries(data).map(([key, value]: [string, any], index) => (
+          <tr key={index}>
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              {key}
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {value.value}
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap">
+              <span
+                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                ${
+                  value.status === "normal"
+                    ? "bg-green-100 text-green-800"
+                    : value.status === "warning"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {value.status}
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
 
 const cleanTextForSpeech = (text: string) => {
   return text.replace(/[•]/g, "").replace(/\n+/g, ". ").trim();
@@ -113,12 +227,20 @@ const AnalysisDisplay = ({ analysis }: { analysis: string }) => {
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const [analysisData, setAnalysisData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // File size validation
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        setError("File size should be less than 5MB");
+        return;
+      }
+
       setLoading(true);
       setError(null);
       const reader = new FileReader();
@@ -136,19 +258,20 @@ export default function Home() {
           body: formData,
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to analyze image");
+          throw new Error(data.error || "Failed to analyze image");
         }
 
-        const data = await response.json();
         setAnalysis(data.analysis);
       } catch (error) {
         console.error("Error analyzing image:", error);
-        setError(
-          error instanceof Error ? error.message : "Failed to analyze image"
-        );
+        const errorMessage =
+          error instanceof Error ? error.message : "Failed to analyze image";
+        setError(errorMessage);
         setAnalysis(null);
+        setSelectedImage(null);
       } finally {
         setLoading(false);
       }
@@ -156,12 +279,24 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
-          X-ray Analysis Portal
-        </h1>
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl">
+              X-ray Analysis Portal
+            </h1>
+            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+              Upload your X-ray images for instant AI-powered analysis. Get
+              detailed insights and professional medical interpretation.
+            </p>
+          </div>
+        </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           {!selectedImage && (
             <div className="mb-8">
@@ -191,10 +326,7 @@ export default function Home() {
           )}
 
           {error && (
-            <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
-              <AlertTriangle className="w-5 h-5" />
-              <p>{error}</p>
-            </div>
+            <Notification message={error} onClose={() => setError(null)} />
           )}
 
           {loading && (
@@ -206,7 +338,7 @@ export default function Home() {
 
           {selectedImage && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="border rounded-lg p-4">
+              <div className="border rounded-lg p-4 bg-gray-50">
                 <h2 className="text-xl font-semibold mb-4 text-gray-900">
                   Uploaded X-ray
                 </h2>
@@ -250,10 +382,49 @@ export default function Home() {
           )}
         </div>
 
-        <footer className="text-center text-gray-500 text-sm">
-          <p>Upload your X-ray image for instant AI-powered analysis</p>
-        </footer>
+        {/* Info Cards moved to bottom */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+            Why Choose Our X-ray Analysis Portal?
+          </h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <InfoCard
+              icon={Shield}
+              title="Secure Analysis"
+              description="Your medical data is protected with enterprise-grade security"
+            />
+            <InfoCard
+              icon={FileText}
+              title="Detailed Reports"
+              description="Get comprehensive analysis of your X-ray images"
+            />
+            <InfoCard
+              icon={History}
+              title="Quick Results"
+              description="Receive instant AI-powered analysis"
+            />
+            <InfoCard
+              icon={Info}
+              title="Expert Insights"
+              description="Powered by advanced medical imaging AI"
+            />
+          </div>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t mt-12">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-gray-500 text-sm">
+              Powered by advanced AI imaging technology
+            </p>
+            <p className="text-gray-400 text-sm mt-2">
+              © 2024 X-ray Analysis Portal. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
