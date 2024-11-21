@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import {
   Upload,
-  AlertTriangle,
   Volume2,
   Pause,
   AlertCircle,
@@ -408,7 +407,7 @@ export default function Home() {
             <InfoCard
               icon={Info}
               title="Expert Insights"
-              description="Powered by advanced medical imaging AI"
+              description="Powered by LLMA 3.2 Model"
             />
           </div>
         </div>
