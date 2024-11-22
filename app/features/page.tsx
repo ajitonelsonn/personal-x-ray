@@ -1,11 +1,19 @@
-// app/features/page.tsx
 "use client";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { Brain, Scan, Zap, ShieldCheck, Clock, LineChart } from "lucide-react";
+import {
+  Brain,
+  Scan,
+  Zap,
+  ShieldCheck,
+  Clock,
+  LineChart,
+  LucideIcon,
+} from "lucide-react";
+import Link from "next/link";
 
 interface FeatureCard {
-  icon: any;
+  icon: LucideIcon;
   title: string;
   description: string;
 }
@@ -136,12 +144,12 @@ export default function Features() {
                 Upload your X-ray image now and see the power of LLAMA 3.2 in
                 action
               </p>
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
                 Try It Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>

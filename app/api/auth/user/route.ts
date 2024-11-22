@@ -2,20 +2,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
-import { cookies } from "next/headers";
+import { PublicUser } from "@/types/user";
+import { JWTPayload } from "@/types/auth";
 
 export async function GET(request: NextRequest) {
   try {
-    // Get token from request cookies directly
     const token = request.cookies.get("token")?.value;
 
     if (!token) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // Verify token
-    const payload = await verifyToken(token);
-    if (!payload || !payload.userId) {
+    // Verify token with proper type handling
+    const payload = (await verifyToken(token)) as JWTPayload | null;
+    if (!payload?.userId) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
@@ -23,20 +23,13 @@ export async function GET(request: NextRequest) {
     const users = (await query(
       "SELECT id, username, email FROM users WHERE id = ?",
       [payload.userId]
-    )) as any[];
+    )) as PublicUser[];
 
     if (!users.length) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Return user data
-    return NextResponse.json({
-      user: {
-        id: users[0].id,
-        username: users[0].username,
-        email: users[0].email,
-      },
-    });
+    return NextResponse.json({ user: users[0] });
   } catch (error) {
     console.error("Error fetching user:", error);
     return NextResponse.json(

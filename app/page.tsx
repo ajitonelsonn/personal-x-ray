@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 import { useState, useEffect } from "react";
 import {
@@ -11,9 +10,11 @@ import {
   History,
   Shield,
   Info,
+  LucideIcon,
 } from "lucide-react";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import Image from "next/image";
 
 interface User {
   id: number;
@@ -24,6 +25,18 @@ interface User {
 interface NotificationProps {
   message: string;
   onClose: () => void;
+}
+
+interface InfoCardProps {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+interface DynamicImageProps {
+  src: string;
+  alt: string;
+  onReset: () => void;
 }
 
 const Notification = ({ message, onClose }: NotificationProps) => {
@@ -55,15 +68,7 @@ const Notification = ({ message, onClose }: NotificationProps) => {
   );
 };
 
-const InfoCard = ({
-  icon: Icon,
-  title,
-  description,
-}: {
-  icon: any;
-  title: string;
-  description: string;
-}) => (
+const InfoCard = ({ icon: Icon, title, description }: InfoCardProps) => (
   <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
     <div className="flex items-center gap-4">
       <div className="p-3 bg-blue-50 rounded-lg">
@@ -76,6 +81,38 @@ const InfoCard = ({
     </div>
   </div>
 );
+
+const DynamicImage = ({ src, alt, onReset }: DynamicImageProps) => {
+  const isBase64 = src.startsWith("data:image");
+
+  return (
+    <div className="border rounded-lg p-4 bg-gray-50">
+      <h2 className="text-xl font-semibold mb-4 text-gray-900">
+        Uploaded X-ray
+      </h2>
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
+        {isBase64 ? (
+          <img src={src} alt={alt} className="object-contain w-full h-full" />
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            className="object-contain"
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        )}
+      </div>
+      <button
+        onClick={onReset}
+        className="mt-4 text-sm text-gray-500 hover:text-gray-700 underline"
+      >
+        Upload a different image
+      </button>
+    </div>
+  );
+};
 
 const cleanTextForSpeech = (text: string) => {
   return text.replace(/[•]/g, "").replace(/\n+/g, ". ").trim();
@@ -184,6 +221,30 @@ const AnalysisDisplay = ({ analysis }: { analysis: string }) => {
   );
 };
 
+const infoCards: InfoCardProps[] = [
+  {
+    icon: Shield,
+    title: "Secure Analysis",
+    description:
+      "Your medical data is protected with enterprise-grade security",
+  },
+  {
+    icon: FileText,
+    title: "Detailed Reports",
+    description: "Get comprehensive analysis of your X-ray images",
+  },
+  {
+    icon: History,
+    title: "Quick Results",
+    description: "Receive instant AI-powered analysis",
+  },
+  {
+    icon: Info,
+    title: "Expert Insights",
+    description: "Powered by LLMA 3.2 Model",
+  },
+];
+
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
@@ -287,7 +348,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* Main Content */}
+
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           {!selectedImage && (
@@ -330,28 +391,15 @@ export default function Home() {
 
           {selectedImage && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="border rounded-lg p-4 bg-gray-50">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900">
-                  Uploaded X-ray
-                </h2>
-                <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
-                  <img
-                    src={selectedImage}
-                    alt="Uploaded X-ray"
-                    className="object-contain w-full h-full"
-                  />
-                </div>
-                <button
-                  onClick={() => {
-                    setSelectedImage(null);
-                    setAnalysis(null);
-                    setError(null);
-                  }}
-                  className="mt-4 text-sm text-gray-500 hover:text-gray-700 underline"
-                >
-                  Upload a different image
-                </button>
-              </div>
+              <DynamicImage
+                src={selectedImage}
+                alt="Uploaded X-ray"
+                onReset={() => {
+                  setSelectedImage(null);
+                  setAnalysis(null);
+                  setError(null);
+                }}
+              />
 
               <div className="border rounded-lg p-4">
                 {analysis ? (
@@ -374,32 +422,19 @@ export default function Home() {
           )}
         </div>
 
-        {/* Info Cards moved to bottom */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
             Why Choose Our X-ray Analysis Portal?
           </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <InfoCard
-              icon={Shield}
-              title="Secure Analysis"
-              description="Your medical data is protected with enterprise-grade security"
-            />
-            <InfoCard
-              icon={FileText}
-              title="Detailed Reports"
-              description="Get comprehensive analysis of your X-ray images"
-            />
-            <InfoCard
-              icon={History}
-              title="Quick Results"
-              description="Receive instant AI-powered analysis"
-            />
-            <InfoCard
-              icon={Info}
-              title="Expert Insights"
-              description="Powered by LLMA 3.2 Model"
-            />
+            {infoCards.map((card, index) => (
+              <InfoCard
+                key={index}
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+              />
+            ))}
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { createToken } from "@/lib/auth";
 import bcrypt from "bcrypt";
+import { DatabaseUser } from "@/types/user";
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
     const users = (await query(
       "SELECT * FROM users WHERE email = ? AND is_active = TRUE",
       [email]
-    )) as any[];
+    )) as DatabaseUser[];
 
     if (!users.length) {
       return NextResponse.json(
@@ -42,13 +43,18 @@ export async function POST(request: Request) {
       [user.id]
     );
 
+    // Define public user data type
+    type PublicUserData = Pick<DatabaseUser, "id" | "email" | "username">;
+
+    const publicUserData: PublicUserData = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    };
+
     const response = NextResponse.json({
       success: true,
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      },
+      user: publicUserData,
     });
 
     // Set HTTP-only cookie

@@ -1,4 +1,5 @@
-// components/Footer.tsx
+import Link from "next/link";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
@@ -18,30 +19,33 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="/" className="hover:text-white transition-colors">
+                <Link href="/" className="hover:text-white transition-colors">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="hover:text-white transition-colors">
+                <Link
+                  href="/about"
+                  className="hover:text-white transition-colors"
+                >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/features"
                   className="hover:text-white transition-colors"
                 >
                   Features
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/contact"
                   className="hover:text-white transition-colors"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -66,24 +70,24 @@ const Footer = () => {
               © 2024 X-ray Analysis Portal. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a
+              <Link
                 href="/privacy"
                 className="text-gray-400 hover:text-white text-sm"
               >
                 Privacy Policy
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/terms"
                 className="text-gray-400 hover:text-white text-sm"
               >
                 Terms of Service
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/cookies"
                 className="text-gray-400 hover:text-white text-sm"
               >
                 Cookie Policy
-              </a>
+              </Link>
             </div>
           </div>
         </div>

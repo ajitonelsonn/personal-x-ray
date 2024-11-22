@@ -58,7 +58,7 @@ export default function Contact() {
               Contact Us
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Have questions about our X-ray Analysis Portal? We're here to
+              Have questions about our X-ray Analysis Portal? We are here to
               help. Reach out to us through any of the following channels.
             </p>
           </div>

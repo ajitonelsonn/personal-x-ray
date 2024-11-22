@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { createToken } from "@/lib/auth";
+import { OTPRecord } from "@/types/otp";
 
 export async function POST(request: Request) {
   try {
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
        ORDER BY o.created_at DESC
        LIMIT 1`,
       [email, otp]
-    )) as any[];
+    )) as OTPRecord[];
 
     if (!otpResults || otpResults.length === 0) {
       return NextResponse.json(

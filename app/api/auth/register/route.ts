@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { sendOTPEmail } from "@/lib/email";
+import { QueryResult, UserIdResult } from "@/types/database";
 
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
     const existingUsers = (await query(
       "SELECT id FROM users WHERE email = ? OR username = ?",
       [email, username]
-    )) as any[];
+    )) as UserIdResult[];
 
     if (existingUsers.length > 0) {
       return NextResponse.json(
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
       `INSERT INTO users (username, email, password, is_active) 
        VALUES (?, ?, ?, FALSE)`,
       [username, email, hashedPassword]
-    )) as any;
+    )) as QueryResult;
 
     const userId = result.insertId;
 

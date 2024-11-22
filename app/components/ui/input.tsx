@@ -1,6 +1,8 @@
-// components/ui/input.tsx
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: React.ComponentType<any>;
+import { LucideIcon } from "lucide-react";
+import { InputHTMLAttributes } from "react";
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  icon: LucideIcon;
   label: string;
 }
 

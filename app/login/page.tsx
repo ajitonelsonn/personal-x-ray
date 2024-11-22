@@ -1,8 +1,7 @@
-// app/login/page.tsx
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, Title, Text } from "@tremor/react";
+import { Card } from "@tremor/react";
 import Image from "next/image";
 import {
   EnvelopeIcon,
@@ -13,7 +12,6 @@ import {
   ShieldCheckIcon,
   BeakerIcon,
   ChartBarIcon,
-  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
@@ -38,6 +36,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+
   const clearForm = () => {
     setFormData({
       email: "",
@@ -47,6 +46,7 @@ export default function Login() {
     });
     setError("");
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -131,8 +131,8 @@ export default function Login() {
               <Image
                 src="/images/logo.png"
                 alt="X-ray Portal Logo"
-                width={80} // Added width
-                height={80} // Added height
+                width={80}
+                height={80}
                 className="object-contain"
                 priority
               />
@@ -154,7 +154,6 @@ export default function Login() {
           </div>
 
           <Card className="mt-8 p-6 shadow-xl">
-            {/* Form content */}
             <form onSubmit={handleSubmit} className="space-y-6">
               {showOTP ? (
                 // OTP Verification Form
@@ -397,8 +396,8 @@ export default function Login() {
             <div className="border-t border-gray-200 pt-8">
               <blockquote>
                 <p className="text-lg text-gray-600 italic">
-                  "Revolutionizing medical imaging analysis with advanced AI
-                  technology"
+                  &ldquo;Revolutionizing medical imaging analysis with advanced
+                  AI technology&rdquo;
                 </p>
                 <footer className="mt-4">
                   <p className="text-base font-semibold text-gray-900">

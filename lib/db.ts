@@ -1,6 +1,16 @@
 // lib/db.ts
 import mysql from "mysql2/promise";
 
+// Type for query parameters
+type QueryParameter =
+  | string
+  | number
+  | boolean
+  | Date
+  | Buffer
+  | null
+  | undefined;
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "4000"),
@@ -15,7 +25,7 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-export async function query(sql: string, params: any[] = []) {
+export async function query(sql: string, params: QueryParameter[] = []) {
   try {
     let connection;
     try {

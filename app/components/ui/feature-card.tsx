@@ -1,6 +1,7 @@
-// components/ui/feature-card.tsx
+import { LucideIcon } from "lucide-react";
+
 interface FeatureCardProps {
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
   title: string;
   description: string;
 }
