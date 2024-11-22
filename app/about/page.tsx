@@ -19,7 +19,7 @@ const developer: DeveloperProfile = {
   name: "Ajito Nelson",
   role: "Big Data Engineer | AI Enthusiast",
   image: "/images/ajito.jpg", // Update path to start from public directory
-  bio: "Full-stack developer with expertise in AI and medical imaging systems. Passionate about creating healthcare solutions and implementing cutting-edge technologies for better medical analysis.",
+  bio: "A dedicated Big Data Engineer and AI enthusiast with expertise in handling complex datasets and extracting actionable insights. Currently working at Viettel Timor (TELEMOR).",
   github: "https://github.com/ajitonelsonn",
   linkedin: "https://linkedin.com/in/ajitonelson",
   email: "ajitonelson@example.com",
