@@ -15,6 +15,12 @@ import {
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
+
 interface NotificationProps {
   message: string;
   onClose: () => void;
@@ -68,53 +74,6 @@ const InfoCard = ({
         <p className="text-sm text-gray-600">{description}</p>
       </div>
     </div>
-  </div>
-);
-
-// Add new ResultsTable component
-const ResultsTable = ({ data }: { data: any }) => (
-  <div className="mt-8 bg-white rounded-lg shadow overflow-hidden">
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-gray-50">
-        <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Parameter
-          </th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Value
-          </th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Status
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
-        {Object.entries(data).map(([key, value]: [string, any], index) => (
-          <tr key={index}>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              {key}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {value.value}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap">
-              <span
-                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                ${
-                  value.status === "normal"
-                    ? "bg-green-100 text-green-800"
-                    : value.status === "warning"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
-                {value.status}
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
   </div>
 );
 
@@ -228,14 +187,33 @@ const AnalysisDisplay = ({ analysis }: { analysis: string }) => {
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
-  const [analysisData, setAnalysisData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/auth/user");
+        const data = await response.json();
+
+        if (response.ok) {
+          setUser(data.user);
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // File size validation
       const maxSize = 5 * 1024 * 1024; // 5MB
       if (file.size > maxSize) {
         setError("File size should be less than 5MB");
@@ -285,6 +263,20 @@ export default function Home() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
+            {loadingUser ? (
+              <div className="mb-6 h-8 w-48 mx-auto animate-pulse bg-gray-200 rounded"></div>
+            ) : (
+              user && (
+                <div className="mb-6">
+                  <h2 className="text-2xl font-medium text-gray-600">
+                    Welcome back,{" "}
+                    <span className="text-blue-600 font-semibold">
+                      {user.username}
+                    </span>
+                  </h2>
+                </div>
+              )
+            )}
             <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl">
               X-ray Analysis Portal
             </h1>
@@ -295,7 +287,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
