@@ -127,13 +127,16 @@ export default function Login() {
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div className="text-center mb-8">
-            <Image
-              src="/logo.svg" // Add your logo
-              alt="X-ray Portal Logo"
-              width={64}
-              height={64}
-              className="mx-auto"
-            />
+            <div className="w-20 h-20 relative mx-auto mb-4">
+              <Image
+                src="/images/logo.png"
+                alt="X-ray Portal Logo"
+                width={80} // Added width
+                height={80} // Added height
+                className="object-contain"
+                priority
+              />
+            </div>
             <h2 className="mt-6 text-3xl font-bold text-gray-900">
               {showOTP
                 ? "Verify Your Email"
@@ -328,7 +331,7 @@ export default function Login() {
         <div className="flex-1 flex flex-col justify-between p-12">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              AI-Powered X-ray Analysis Portal
+              X-ray Analysis Portal 🇹🇱
             </h1>
             <p className="text-lg text-gray-600 mb-12">
               Advanced medical imaging analysis powered by LLAMA 3.2 AI

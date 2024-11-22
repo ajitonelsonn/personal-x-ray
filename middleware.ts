@@ -1,47 +1,57 @@
 // middleware.ts
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import * as jose from "jose";
+import { NextRequest, NextResponse } from "next/server";
+import { verifyToken } from "@/lib/auth";
 
-// Define public routes that don't require authentication
-const publicRoutes = ["/login", "/register"];
+// Define public paths
+const publicPaths = [
+  "/login",
+  "/register",
+  "/images/logo.png", // Add the logo path
+];
+
+// Define paths that should bypass middleware
+const bypassPaths = ["/_next", "/api", "/images", "/favicon.ico"];
 
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
-  // Check if the current path is a public route
-  const isPublicRoute = publicRoutes.includes(pathname);
+  // Check if the path should bypass middleware
+  if (bypassPaths.some((bp) => pathname.startsWith(bp))) {
+    return NextResponse.next();
+  }
 
-  // Get the token from cookies
+  // Check if the path is public
+  const isPublicPath = publicPaths.some((pp) => pathname.startsWith(pp));
+
+  // Get token from request cookies
   const token = request.cookies.get("token")?.value;
 
   try {
-    if (!token && !isPublicRoute) {
+    if (!token && !isPublicPath) {
       // If no token and trying to access protected route, redirect to login
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
     if (token) {
       // Verify the token
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-      try {
-        await jose.jwtVerify(token, secret);
+      const payload = await verifyToken(token);
 
-        // If token is valid and trying to access login page, redirect to home
-        if (isPublicRoute) {
-          return NextResponse.redirect(new URL("/", request.url));
-        }
-      } catch (error) {
-        // If token verification fails, clear the token and redirect to login
+      if (!payload) {
+        // If token is invalid, clear it and redirect to login
         const response = NextResponse.redirect(new URL("/login", request.url));
         response.cookies.delete("token");
         return response;
+      }
+
+      // If token is valid and trying to access login page, redirect to home
+      if (isPublicPath) {
+        return NextResponse.redirect(new URL("/", request.url));
       }
     }
 
     return NextResponse.next();
   } catch (error) {
-    // For any other errors, redirect to login
+    // For any errors, clear token and redirect to login
     console.error("Middleware error:", error);
     const response = NextResponse.redirect(new URL("/login", request.url));
     response.cookies.delete("token");
@@ -53,11 +63,11 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - public files (images etc.)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:jpg|jpeg|gif|png|svg|ico)$).*)",
   ],
 };
