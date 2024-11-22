@@ -1,5 +1,5 @@
 {
-  "name": "xray-analysis",
+  "name": "personal-x-ray",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,21 +9,35 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.0.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "together-ai": "^0.2.1",
-    "lucide-react": "^0.299.0"
+    "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@tremor/react": "^3.18.4",
+    "@types/bcrypt": "^5.0.2",
+    "@types/nodemailer": "^6.4.17",
+    "bcrypt": "^5.1.1",
+    "clsx": "^2.1.1",
+    "jose": "^5.9.6",
+    "lucide-react": "^0.460.0",
+    "mysql2": "^3.11.4",
+    "next": "15.0.3",
+    "nodemailer": "^6.9.16",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.3.5",
+    "recharts": "^2.13.3",
+    "tailwind-merge": "^2.5.4",
+    "together-ai": "^0.9.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10",
-    "postcss": "^8",
-    "tailwindcss": "^3",
-    "typescript": "^5",
     "eslint": "^8",
-    "eslint-config-next": "14.0.0"
+    "eslint-config-next": "15.0.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }

@@ -2,11 +2,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  api: {
-    bodyParser: {
-      sizeLimit: "1mb",
-    },
-  },
   images: {
     domains: ["localhost"],
     remotePatterns: [
@@ -15,6 +10,11 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "1mb",
+    },
   },
 };
 
