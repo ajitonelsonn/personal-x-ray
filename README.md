@@ -47,8 +47,8 @@ Before installation, ensure you have:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/personal-xray.git
-cd personal-xray
+git clone https://github.com/ajitonelsonn/personal-x-ray.git
+cd personal-x-ray
 ```
 
 2. **Install dependencies**
@@ -159,7 +159,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any queries or support, please contact:
 
-- GitHub: [@ajitonelsonn](https://github.com/yourusername)
+- GitHub: [@ajitonelsonn](https://github.com/ajitonelsonn)
 
 ---
 
