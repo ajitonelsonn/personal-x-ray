@@ -4,15 +4,15 @@ A modern web application for AI-powered X-ray image analysis using the LLAMA 3.2
 
 ## 🎥 Video Demo
 
-![Project Demo](demo.gif)
+![Project Demo](screenshots/project.gif)
 
-[Click here to watch the demo on Facebook](https://fb.watch/yourvideoid/) <!-- Replace with your actual Facebook video link -->
+[Click here to watch the demo on Facebook](https://fb.watch/w0Qw3z13pk/) <!-- Replace with your actual Facebook video link -->
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue)](https://www.personalxray.site)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![Together AI](https://img.shields.io/badge/Together%20AI-LLAMA%203.2-orange)](https://together.ai/)
-[![Video Demo](https://img.shields.io/badge/Demo-Watch%20on%20Facebook-blue)](https://fb.watch/yourvideoid/)
+[![Video Demo](https://img.shields.io/badge/Demo-Watch%20on%20Facebook-blue)](https://fb.watch/w0Qw3z13pk/)
 
 ## 🌟 Features
 
