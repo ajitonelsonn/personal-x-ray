@@ -99,7 +99,7 @@ The application layer consists of two main components:
 
 #### 4. Database Layer
 
-- **TiDB Cloud**: At this moment it Stores user data
+- **TiDB Cloud**: At this moment it Stores user data, otp and auth_logs
 
 ### Data Flow
 
