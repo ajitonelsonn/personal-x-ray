@@ -4,7 +4,7 @@ A modern web application for AI-powered X-ray image analysis using the LLAMA 3.2
 
 ## 🎥 Video Demo
 
-![Project Demo](screenshots/project.gif)
+[![Project Demo](screenshots/project.gif)](https://fb.watch/w0Qw3z13pk/)
 
 [Click here to watch the demo on Facebook](https://fb.watch/w0Qw3z13pk/) <!-- Replace with your actual Facebook video link -->
 
@@ -91,6 +91,10 @@ mysql -u your_username -p < database_setup.sql
 npm run dev
 ```
 
+6. **Image for Test**
+   If you don't have any image of an X-ray, you can use this:  
+   [Test X-ray](https://github.com/ajitonelsonn/personal-x-ray/blob/main/FlowChart/testxray.jpeg)
+
 ## 🔄 Workflow
 
 1. **User Authentication**
@@ -120,11 +124,6 @@ npm run dev
   - Optimized file size limits
   - Caching implementation
 
-- **API Response Time**
-
-  - Average response: ~1.2s
-  - Cached responses: ~0.3s
-
 - **Security Measures**
   - JWT token encryption
   - HTTP-only cookies
@@ -149,17 +148,18 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Learn More . . .
 
-- [Together AI](https://together.ai) for the LLAMA 3.2 Vision Model
-- [Next.js](https://nextjs.org) team for the amazing framework
-- [Tremor](https://www.tremor.so) for beautiful UI components
+- **X-ray Analysis Portal - System Architecture Diagram**: [View here](https://github.com/ajitonelsonn/personal-x-ray/tree/main/System%20Architecture%20Diagram).
+- **X-ray Analysis Portal - Flow Chart**: [View here](https://github.com/ajitonelsonn/personal-x-ray/tree/main/FlowChart).
+- **X-ray Analysis Portal Database**: [View here](https://github.com/ajitonelsonn/personal-x-ray/tree/main/database_setup).
 
 ## 📞 Contact
 
 For any queries or support, please contact:
 
-- GitHub: [@ajitonelsonn](https://github.com/ajitonelsonn)
+- Facebook: [@ajitonelsonn](https://github.com/ajitonelsonn)
+- Linkedin: [@ajitonelsonn](https://github.com/ajitonelsonn)
 
 ---
 
