@@ -4,7 +4,7 @@ A modern web application for AI-powered X-ray image analysis using the LLAMA 3.2
 
 ## 🎥 Video Demo
 
-![Project Demo](screenshots/project.gif)
+![Project Demo](https://xrayportal.s3.us-east-1.amazonaws.com/project.gif)
 
 [Click here to watch the demo on Facebook](https://fb.watch/w0Qw3z13pk/) <!-- Replace with your actual Facebook video link -->
 
