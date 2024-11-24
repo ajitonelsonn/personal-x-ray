@@ -36,7 +36,7 @@ erDiagram
     }
 ```
 
-And here's the README section explaining the database structure:
+And here's the section explaining the database structure:
 
 ## 📊 Database Schema
 
