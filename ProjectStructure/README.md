@@ -141,3 +141,7 @@ TypeScript type definitions:
 - Authentication middleware
 - Database utilities
 - Email services
+
+---
+
+Built with ❤️ in Timor-Leste 🇹🇱

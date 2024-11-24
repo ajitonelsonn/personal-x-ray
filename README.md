@@ -108,6 +108,7 @@ A modern web application for AI-powered X-ray image analysis using the LLAMA 3.2
 - [System Architecture](https://github.com/ajitonelsonn/personal-x-ray/tree/main/System%20Architecture%20Diagram)
 - [Flow Chart](https://github.com/ajitonelsonn/personal-x-ray/tree/main/FlowChart)
 - [Database Schema](https://github.com/ajitonelsonn/personal-x-ray/tree/main/database_setup)
+- [Project Structure](https://github.com/ajitonelsonn/personal-x-ray/tree/main/ProjectStructure)
 
 ## 📸 Screenshots
 
