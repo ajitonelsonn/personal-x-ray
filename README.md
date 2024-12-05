@@ -142,7 +142,7 @@ Contributions are welcome! Feel free to:
 <div align="center">
 
 [![Facebook](https://img.shields.io/badge/Facebook-%40ajitonelsonn-blue)](https://facebook.com/kharu.kharu89/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%40ajitonelsonn-blue)](https://linkedin.com/in/ajitonelsonn)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%40ajitonelsonn-blue)](https://linkedin.com/in/ajitonelson)
 
 </div>
 
