@@ -1,4 +1,9 @@
-# 🥈 Runner-up of StackUp November Coding Challenge - Monthly Hackathon 2024  
+# 🥈 Runner-up of StackUp November Coding Challenge - Monthly Hackathon 2024
+  <div align="center">
+  <img src="screenshots/c.png" alt="b" width="400"/>
+  <img src="screenshots/b.png" alt="c" width="400"/>
+</div>
+
 [View Challenge Details](https://earn.stackup.dev/learn/pathways/2024-monthly-hackathon-coding-challenges/skills/november-2024-monthly-coding-challenge/modules/november-2024-monthly-coding-challenges-showcase/tutorials/monthly-hackathon-2024-november-2024-coding-challenge-showcase)  
 
 # X-ray Analysis Portal 🇹🇱
