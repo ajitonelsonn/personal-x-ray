@@ -4,6 +4,8 @@
   <img src="screenshots/b.png" alt="c" width="400"/>
 </div>
 
+[personal-x-ray](https://personal-x-ray.vercel.app/login)
+
 [View Challenge Details](https://earn.stackup.dev/learn/pathways/2024-monthly-hackathon-coding-challenges/skills/november-2024-monthly-coding-challenge/modules/november-2024-monthly-coding-challenges-showcase/tutorials/monthly-hackathon-2024-november-2024-coding-challenge-showcase)  
 
 # X-ray Analysis Portal 🇹🇱
