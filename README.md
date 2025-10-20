@@ -131,13 +131,6 @@ A modern web application for AI-powered X-ray image analysis using the LLAMA 3.2
 
 Need a test X-ray? [Download sample X-ray image](https://github.com/ajitonelsonn/personal-x-ray/blob/main/FlowChart/testxray.jpeg)
 
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-
-- Fork the repository
-- Create a feature branch
-- Submit a Pull Request
 
 ## 📞 Connect
 
