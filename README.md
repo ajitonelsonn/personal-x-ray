@@ -136,11 +136,3 @@ Need a test X-ray? [Download sample X-ray image](https://github.com/ajitonelsonn
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-<div align="center">
-
----
-
-Built with ❤️ in Timor-Leste 🇹🇱
-
-</div>
